@@ -1,0 +1,5 @@
+apiVersion: v2
+name: flux-agent
+description: A Flux CD Agent for kagent
+type: application
+version: ${VERSION}

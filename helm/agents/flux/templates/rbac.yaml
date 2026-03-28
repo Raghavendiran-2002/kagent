@@ -1,0 +1,121 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "kagent.fullname" . }}-flux-role
+  labels:
+    {{- include "kagent.labels" . | nindent 4 }}
+rules:
+# Flux source controller resources
+- apiGroups:
+    - "source.toolkit.fluxcd.io"
+  resources:
+    - "*"
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+# Flux kustomize controller resources
+- apiGroups:
+    - "kustomize.toolkit.fluxcd.io"
+  resources:
+    - "*"
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+# Flux helm controller resources
+- apiGroups:
+    - "helm.toolkit.fluxcd.io"
+  resources:
+    - "*"
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+# Flux notification controller resources
+- apiGroups:
+    - "notification.toolkit.fluxcd.io"
+  resources:
+    - "*"
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+# Flux image automation controller resources
+- apiGroups:
+    - "image.toolkit.fluxcd.io"
+  resources:
+    - "*"
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+# Core resources for diagnostics and Flux secret/configmap access
+- apiGroups:
+    - ""
+  resources:
+    - pods
+    - events
+    - namespaces
+    - secrets
+    - configmaps
+    - services
+    - serviceaccounts
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+    - ""
+  resources:
+    - pods/log
+    - pods/exec
+  verbs:
+    - get
+# Workload resources managed by Flux
+- apiGroups:
+    - apps
+  resources:
+    - deployments
+    - statefulsets
+    - daemonsets
+    - replicasets
+  verbs:
+    - get
+    - list
+    - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "kagent.fullname" . }}-flux-rolebinding
+  labels:
+    {{- include "kagent.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "kagent.fullname" . }}-flux-role
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "kagent.fullname" . }}
+    namespace: {{ include "kagent.namespace" . }}
