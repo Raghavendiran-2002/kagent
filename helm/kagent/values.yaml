@@ -129,8 +129,8 @@ controller:
     #   podLabels:
     #     team: platform
     #     environment: production
-  # -- The base URL of the A2A Server endpoint, as advertised to clients.
-  # @default -- `http://<fullname>-controller.<namespace>.svc.cluster.local:<port>`
+    # -- The base URL of the A2A Server endpoint, as advertised to clients.
+    # @default -- `http://<fullname>-controller.<namespace>.svc.cluster.local:<port>`
   a2aBaseUrl: ""
   agentImage:
     registry: ""
@@ -143,7 +143,8 @@ controller:
     repository: kagent-dev/kagent/skills-init
     tag: "" # Will default to global, then Chart version
     pullPolicy: ""
-  streaming: # Streaming buffer size for A2A communication
+  streaming:
+    # Streaming buffer size for A2A communication
     maxBufSize: 1Mi # 1024 * 1024
     initialBufSize: 4Ki # 4 * 1024
     timeout: 600s # 600 seconds
@@ -193,9 +194,9 @@ controller:
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
-# ==============================================================================
-# UI CONFIGURATION
-# ==============================================================================
+  # ==============================================================================
+  # UI CONFIGURATION
+  # ==============================================================================
 
 ui:
   replicas: 1
@@ -287,9 +288,9 @@ providers:
     apiKeySecretKey: GOOGLE_API_KEY
     # apiKey: ""
 
-# ==============================================================================
-# KMCP
-# ==============================================================================
+    # ==============================================================================
+    # KMCP
+    # ==============================================================================
 
 kmcp:
   enabled: true
@@ -315,7 +316,7 @@ kagent-tools:
   tools:
     loglevel: "debug"
     metrics:
-      port: 8085  # Use a different port than the main service port (8084) to avoid duplicate port definitions
+      port: 8085 # Use a different port than the main service port (8084) to avoid duplicate port definitions
 
 # ==============================================================================
 # PROXY CONFIGURATION
@@ -418,6 +419,33 @@ agents:
         cpu: 1000m
         memory: 1Gi
   cilium-debug-agent:
+    enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+  flux-agent:
+    enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+  keda-agent:
+    enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+  kyverno-agent:
     enabled: true
     resources:
       requests:

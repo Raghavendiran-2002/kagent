@@ -324,6 +324,12 @@ helm-agents:
 	helm package -d $(HELM_DIST_FOLDER) helm/agents/cilium-debug
 	VERSION=$(VERSION) envsubst < helm/agents/cilium-manager/Chart-template.yaml > helm/agents/cilium-manager/Chart.yaml
 	helm package -d $(HELM_DIST_FOLDER) helm/agents/cilium-manager
+	VERSION=$(VERSION) envsubst < helm/agents/flux/Chart-template.yaml > helm/agents/flux/Chart.yaml
+	helm package -d $(HELM_DIST_FOLDER) helm/agents/flux
+	VERSION=$(VERSION) envsubst < helm/agents/keda/Chart-template.yaml > helm/agents/keda/Chart.yaml
+	helm package -d $(HELM_DIST_FOLDER) helm/agents/keda
+	VERSION=$(VERSION) envsubst < helm/agents/kyverno/Chart-template.yaml > helm/agents/kyverno/Chart.yaml
+	helm package -d $(HELM_DIST_FOLDER) helm/agents/kyverno
 
 .PHONY: helm-tools
 helm-tools:
