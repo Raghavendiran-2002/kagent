@@ -1,0 +1,5 @@
+apiVersion: v2
+name: keda-agent
+description: A Keda Agent for kagent
+type: application
+version: ${VERSION}
